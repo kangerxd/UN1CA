@@ -1,4 +1,4 @@
-From 1a31fb7b89d92f618ab8d0b4ef4c4efc5ea3301c Mon Sep 17 00:00:00 2001
+From ab0c13e8f3f4606876d41dbe69f01de7aa479009 Mon Sep 17 00:00:00 2001
 From: Salvo Giangreco <giangrecosalvo9@gmail.com>
 Date: Fri, 13 Sep 2024 01:59:43 +0200
 Subject: [PATCH] Add UN1CA Settings
@@ -38,17 +38,17 @@ Subject: [PATCH] Add UN1CA Settings
  res/values-vi/strings.xml                     |  31 +
  res/values/colors.xml                         |   1 +
  res/values/ids.xml                            |   1 +
- res/values/public.xml                         |  47 ++
- res/values/strings.xml                        |  39 ++
+ res/values/public.xml                         |  48 ++
+ res/values/strings.xml                        |  40 ++
  res/xml/meta_009_settings.xml                 |   1 +
  res/xml/sec_top_level_settings.xml            |   6 +
  res/xml/unica_settings.xml                    |  28 +
- res/xml/unica_settings_power_menu.xml         |   9 +
+ res/xml/unica_settings_power_menu.xml         |  10 +
  .../com/android/settings/R$color.smali        |   2 +
  .../com/android/settings/R$drawable.smali     |   6 +
  .../com/android/settings/R$id.smali           |   2 +
  .../com/android/settings/R$layout.smali       |   2 +
- .../com/android/settings/R$string.smali       |  78 +++
+ .../com/android/settings/R$string.smali       |  80 +++
  .../com/android/settings/R$xml.smali          |   4 +
  .../Settings$FOTASuggestionActivity.smali     |  33 +-
  .../core/gateway/SettingsGateway.smali        |   4 +-
@@ -81,9 +81,10 @@ Subject: [PATCH] Add UN1CA Settings
  ...SecureScreenshotPreferenceController.smali | 183 ++++++
  .../DataModePreferenceController.smali        | 205 +++++++
  .../EmergencyCallPreferenceController.smali   | 205 +++++++
+ .../ForceRestartPreferenceController.smali    | 183 ++++++
  .../MedicalInfoPreferenceController.smali     | 183 ++++++
  .../SideKeyPreferenceController.smali         | 195 +++++++
- 79 files changed, 6930 insertions(+), 17 deletions(-)
+ 80 files changed, 7118 insertions(+), 17 deletions(-)
  create mode 100644 res/drawable/sec_ic_settings_unica.xml
  create mode 100644 res/layout-night/unica_settings_logo_layout.xml
  create mode 100644 res/layout/unica_settings_logo_layout.xml
@@ -116,6 +117,7 @@ Subject: [PATCH] Add UN1CA Settings
  create mode 100644 smali_classes4/io/mesalabs/unica/settings/SecureScreenshotPreferenceController.smali
  create mode 100644 smali_classes4/io/mesalabs/unica/settings/powermenu/DataModePreferenceController.smali
  create mode 100644 smali_classes4/io/mesalabs/unica/settings/powermenu/EmergencyCallPreferenceController.smali
+ create mode 100644 smali_classes4/io/mesalabs/unica/settings/powermenu/ForceRestartPreferenceController.smali
  create mode 100644 smali_classes4/io/mesalabs/unica/settings/powermenu/MedicalInfoPreferenceController.smali
  create mode 100644 smali_classes4/io/mesalabs/unica/settings/powermenu/SideKeyPreferenceController.smali
 
@@ -1309,7 +1311,7 @@ index 936d1e6c..18d38c71 100644
 +    <item type="id" name="unica_logo_wp" />
  </resources>
 diff --git a/res/values/public.xml b/res/values/public.xml
-index 144b9f5d..f11d1a22 100644
+index 144b9f5d..109dbfd1 100644
 --- a/res/values/public.xml
 +++ b/res/values/public.xml
 @@ -5157,6 +5157,7 @@
@@ -1353,7 +1355,7 @@ index 144b9f5d..f11d1a22 100644
      <public type="layout" name="sud_glif_preference_template_card" id="0x7f0d059c" />
      <public type="layout" name="material_clock_period_toggle_land" id="0x7f0d014d" />
      <public type="layout" name="sec_bluetooth_function_settings_content_land" id="0x7f0d02ac" />
-@@ -32380,6 +32386,45 @@
+@@ -32380,6 +32386,46 @@
      <public type="string" name="zone_time_type_standard" id="0x7f133456" />
      <public type="string" name="zzz_lgt_password_wrong_pin_code1" id="0x7f133457" />
      <public type="string" name="zzz_lgt_password_wrong_pin_code2" id="0x7f133458" />
@@ -1386,20 +1388,21 @@ index 144b9f5d..f11d1a22 100644
 +    <public type="string" name="unica_pif_version_title" id="0x7f133473" />
 +    <public type="string" name="unica_power_menu_data_mode_title" id="0x7f133474" />
 +    <public type="string" name="unica_power_menu_emergency_call_title" id="0x7f133475" />
-+    <public type="string" name="unica_power_menu_medical_info_title" id="0x7f133476" />
-+    <public type="string" name="unica_power_menu_side_key_title" id="0x7f133477" />
-+    <public type="string" name="unica_power_menu_title" id="0x7f133478" />
-+    <public type="string" name="unica_rom_version_title" id="0x7f133479" />
-+    <public type="string" name="unica_secure_ss_title" id="0x7f13347a" />
-+    <public type="string" name="unica_settings_title" id="0x7f13347b" />
-+    <public type="string" name="unica_spoof_settings_title" id="0x7f13347c" />
-+    <public type="string" name="unica_ss_detection_title" id="0x7f13347d" />
-+    <public type="string" name="unica_ui_settings_title" id="0x7f13347e" />
-+    <public type="string" name="unica_updates_title" id="0x7f13347f" />
++    <public type="string" name="unica_power_menu_force_restart_title" id="0x7f133476" />
++    <public type="string" name="unica_power_menu_medical_info_title" id="0x7f133477" />
++    <public type="string" name="unica_power_menu_side_key_title" id="0x7f133478" />
++    <public type="string" name="unica_power_menu_title" id="0x7f133479" />
++    <public type="string" name="unica_rom_version_title" id="0x7f13347a" />
++    <public type="string" name="unica_secure_ss_title" id="0x7f13347b" />
++    <public type="string" name="unica_settings_title" id="0x7f13347c" />
++    <public type="string" name="unica_spoof_settings_title" id="0x7f13347d" />
++    <public type="string" name="unica_ss_detection_title" id="0x7f13347e" />
++    <public type="string" name="unica_ui_settings_title" id="0x7f13347f" />
++    <public type="string" name="unica_updates_title" id="0x7f133480" />
      <public type="style" name="Accessibility.Preference.A11ySeekBarPreference" id="0x7f140000" />
      <public type="style" name="Accessibility.Preference.A11ySeekBarWithButtonsPreference" id="0x7f140001" />
      <public type="style" name="Accessibility.Preference.SingleChoicePreference" id="0x7f140002" />
-@@ -35101,4 +35146,6 @@
+@@ -35101,4 +35147,6 @@
      <public type="xml" name="zen_mode_schedule_rule_settings" id="0x7f16026c" />
      <public type="xml" name="zen_mode_settings" id="0x7f16026d" />
      <public type="xml" name="zen_mode_sound_vibration_settings" id="0x7f16026e" />
@@ -1407,10 +1410,10 @@ index 144b9f5d..f11d1a22 100644
 +    <public type="xml" name="unica_settings_power_menu" id="0x7f160270" />
  </resources>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index baacb818..4ac0edc5 100644
+index baacb818..13e7ee5f 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -14047,4 +14047,43 @@ In Camera, you can use the Top button to take pictures."</string>
+@@ -14047,4 +14047,44 @@ In Camera, you can use the Top button to take pictures."</string>
      <string name="zone_time_type_standard">Standard time</string>
      <string name="zzz_lgt_password_wrong_pin_code1">The PIN was entered incorrectly %d time.</string>
      <string name="zzz_lgt_password_wrong_pin_code2">After 3 incorrect PIN attempts, you have to enter the personal unlocking key (PUK).</string>
@@ -1443,6 +1446,7 @@ index baacb818..4ac0edc5 100644
 +    <string name="unica_pif_version_title">Play Integrity Fix version</string>
 +    <string name="unica_power_menu_data_mode_title">Mobile data</string>
 +    <string name="unica_power_menu_emergency_call_title">Emergency call</string>
++    <string name="unica_power_menu_force_restart_title">Show force restart suggestion text</string>
 +    <string name="unica_power_menu_medical_info_title">Medical info</string>
 +    <string name="unica_power_menu_side_key_title">Show \"Side button settings\" button</string>
 +    <string name="unica_power_menu_title">Advanced power menu settings</string>
@@ -1526,10 +1530,10 @@ index 00000000..173d1ded
 +</PreferenceScreen>
 diff --git a/res/xml/unica_settings_power_menu.xml b/res/xml/unica_settings_power_menu.xml
 new file mode 100644
-index 00000000..9c5d1a65
+index 00000000..9a697289
 --- /dev/null
 +++ b/res/xml/unica_settings_power_menu.xml
-@@ -0,0 +1,9 @@
+@@ -0,0 +1,10 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<PreferenceScreen android:title="@string/unica_power_menu_title" settings:hierarchicalParentFragment="io.mesalabs.unica.UnicaSettingsFragment" settings:topLevelPreferenceKey="unica_power_menu"
 +  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:settings="http://schemas.android.com/apk/res-auto">
@@ -1538,6 +1542,7 @@ index 00000000..9c5d1a65
 +    <SecSwitchPreference android:title="@string/unica_power_menu_medical_info_title" android:key="unica_power_menu_medical" settings:controller="io.mesalabs.unica.settings.powermenu.MedicalInfoPreferenceController" />
 +    <com.samsung.android.settings.widget.SecInsetCategoryPreference />
 +    <SecSwitchPreference android:title="@string/unica_power_menu_side_key_title" android:key="unica_power_menu_side" settings:controller="io.mesalabs.unica.settings.powermenu.SideKeyPreferenceController" />
++    <SecSwitchPreference android:title="@string/unica_power_menu_force_restart_title" android:key="unica_power_menu_forcerestart" settings:controller="io.mesalabs.unica.settings.powermenu.ForceRestartPreferenceController" />
 +</PreferenceScreen>
 diff --git a/smali_classes2/com/android/settings/R$color.smali b/smali_classes2/com/android/settings/R$color.smali
 index d6f9a5cc..cda45c54 100644
@@ -1603,7 +1608,7 @@ index 5279deab..211ba597 100644
  
  .field public static final user_credential:I = 0x7f0d05f8
 diff --git a/smali_classes2/com/android/settings/R$string.smali b/smali_classes2/com/android/settings/R$string.smali
-index 43844dd6..54f3fed1 100644
+index 43844dd6..f9a23511 100644
 --- a/smali_classes2/com/android/settings/R$string.smali
 +++ b/smali_classes2/com/android/settings/R$string.smali
 @@ -4154,6 +4154,8 @@
@@ -1633,7 +1638,7 @@ index 43844dd6..54f3fed1 100644
  .field public static final menu_restore:I = 0x7f131605
  
  .field public static final menu_save:I = 0x7f131606
-@@ -10662,6 +10668,78 @@
+@@ -10662,6 +10668,80 @@
  
  .field public static final unable_to_change_usb_options_via_smart_switch:I = 0x7f132c1a
  
@@ -1689,25 +1694,27 @@ index 43844dd6..54f3fed1 100644
 +
 +.field public static final unica_power_menu_emergency_call_title:I = 0x7f133475
 +
-+.field public static final unica_power_menu_medical_info_title:I = 0x7f133476
++.field public static final unica_power_menu_force_restart_title:I = 0x7f133476
 +
-+.field public static final unica_power_menu_side_key_title:I = 0x7f133477
++.field public static final unica_power_menu_medical_info_title:I = 0x7f133477
 +
-+.field public static final unica_power_menu_title:I = 0x7f133478
++.field public static final unica_power_menu_side_key_title:I = 0x7f133478
 +
-+.field public static final unica_rom_version_title:I = 0x7f133479
++.field public static final unica_power_menu_title:I = 0x7f133479
 +
-+.field public static final unica_secure_ss_title:I = 0x7f13347a
++.field public static final unica_rom_version_title:I = 0x7f13347a
 +
-+.field public static final unica_settings_title:I = 0x7f13347b
++.field public static final unica_secure_ss_title:I = 0x7f13347b
 +
-+.field public static final unica_spoof_settings_title:I = 0x7f13347c
++.field public static final unica_settings_title:I = 0x7f13347c
 +
-+.field public static final unica_ss_detection_title:I = 0x7f13347d
++.field public static final unica_spoof_settings_title:I = 0x7f13347d
 +
-+.field public static final unica_ui_settings_title:I = 0x7f13347e
++.field public static final unica_ss_detection_title:I = 0x7f13347e
 +
-+.field public static final unica_updates_title:I = 0x7f13347f
++.field public static final unica_ui_settings_title:I = 0x7f13347f
++
++.field public static final unica_updates_title:I = 0x7f133480
 +
  .field public static final uninstall:I = 0x7f132c1e
  
@@ -7377,6 +7384,195 @@ index 00000000..ed94cac8
 +    move-result-object p0
 +
 +    const-string v0, "unica_power_menu_emergency"
++
++    invoke-static {p0, v0, p1}, Landroid/provider/Settings$System;->putInt(Landroid/content/ContentResolver;Ljava/lang/String;I)Z
++
++    move-result p0
++
++    return p0
++.end method
++
++.method public bridge synthetic useDynamicSliceSummary()Z
++    .locals 0
++
++    invoke-super {p0}, Lcom/android/settings/slices/Sliceable;->useDynamicSliceSummary()Z
++
++    move-result p0
++
++    return p0
++.end method
+diff --git a/smali_classes4/io/mesalabs/unica/settings/powermenu/ForceRestartPreferenceController.smali b/smali_classes4/io/mesalabs/unica/settings/powermenu/ForceRestartPreferenceController.smali
+new file mode 100644
+index 00000000..706c6dbc
+--- /dev/null
++++ b/smali_classes4/io/mesalabs/unica/settings/powermenu/ForceRestartPreferenceController.smali
+@@ -0,0 +1,183 @@
++.class public Lio/mesalabs/unica/settings/powermenu/ForceRestartPreferenceController;
++.super Lcom/android/settings/core/TogglePreferenceController;
++.source "ForceRestartPreferenceController.java"
++
++
++# direct methods
++.method public constructor <init>(Landroid/content/Context;Ljava/lang/String;)V
++    .locals 0
++
++    invoke-direct {p0, p1, p2}, Lcom/android/settings/core/TogglePreferenceController;-><init>(Landroid/content/Context;Ljava/lang/String;)V
++
++    return-void
++.end method
++
++
++# virtual methods
++.method public getAvailabilityStatus()I
++    .locals 0
++
++    const/4 p0, 0x0
++
++    return p0
++.end method
++
++.method public bridge synthetic getBackgroundWorkerClass()Ljava/lang/Class;
++    .locals 0
++
++    invoke-super {p0}, Lcom/android/settings/slices/Sliceable;->getBackgroundWorkerClass()Ljava/lang/Class;
++
++    move-result-object p0
++
++    return-object p0
++.end method
++
++.method public bridge synthetic getBackupKeys()Ljava/util/List;
++    .locals 0
++
++    invoke-super {p0}, Lcom/samsung/android/settings/cube/Controllable;->getBackupKeys()Ljava/util/List;
++
++    move-result-object p0
++
++    return-object p0
++.end method
++
++.method public bridge synthetic getIntentFilter()Landroid/content/IntentFilter;
++    .locals 0
++
++    invoke-super {p0}, Lcom/android/settings/slices/Sliceable;->getIntentFilter()Landroid/content/IntentFilter;
++
++    move-result-object p0
++
++    return-object p0
++.end method
++
++.method public bridge synthetic getLaunchIntent()Landroid/content/Intent;
++    .locals 0
++
++    invoke-super {p0}, Lcom/samsung/android/settings/cube/Controllable;->getLaunchIntent()Landroid/content/Intent;
++
++    move-result-object p0
++
++    return-object p0
++.end method
++
++.method public getSliceHighlightMenuRes()I
++    .locals 0
++
++    sget p0, Lcom/android/settings/R$string;->menu_key_unica_settings:I
++
++    return p0
++.end method
++
++.method public bridge synthetic getStatusText()Ljava/lang/String;
++    .locals 0
++
++    invoke-super {p0}, Lcom/samsung/android/settings/cube/Controllable;->getStatusText()Ljava/lang/String;
++
++    move-result-object p0
++
++    return-object p0
++.end method
++
++.method public bridge synthetic hasAsyncUpdate()Z
++    .locals 0
++
++    invoke-super {p0}, Lcom/android/settings/slices/Sliceable;->hasAsyncUpdate()Z
++
++    move-result p0
++
++    return p0
++.end method
++
++.method public bridge synthetic ignoreUserInteraction()V
++    .locals 0
++
++    invoke-super {p0}, Lcom/samsung/android/settings/cube/Controllable;->ignoreUserInteraction()V
++
++    return-void
++.end method
++
++.method public isChecked()Z
++    .locals 2
++
++    iget-object p0, p0, Lcom/android/settingslib/core/AbstractPreferenceController;->mContext:Landroid/content/Context;
++
++    invoke-virtual {p0}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
++
++    move-result-object p0
++
++    const-string v0, "unica_power_menu_forcerestart"
++
++    const/4 v1, 0x0
++
++    invoke-static {p0, v0, v1}, Landroid/provider/Settings$System;->getInt(Landroid/content/ContentResolver;Ljava/lang/String;I)I
++
++    move-result p0
++
++    if-ne p0, v1, :cond_0
++
++    goto :goto_0
++
++    :cond_0
++    const/4 v1, 0x1
++
++    :goto_0
++    return v1
++.end method
++
++.method public isControllable()Z
++    .locals 0
++
++    const/4 p0, 0x1
++
++    return p0
++.end method
++
++.method public bridge synthetic needUserInteraction(Ljava/lang/Object;)Lcom/samsung/android/settings/cube/Controllable$ControllableType;
++    .locals 0
++
++    invoke-super {p0, p1}, Lcom/samsung/android/settings/cube/Controllable;->needUserInteraction(Ljava/lang/Object;)Lcom/samsung/android/settings/cube/Controllable$ControllableType;
++
++    move-result-object p0
++
++    return-object p0
++.end method
++
++.method public bridge synthetic runDefaultAction()Z
++    .locals 0
++
++    invoke-super {p0}, Lcom/samsung/android/settings/cube/Controllable;->runDefaultAction()Z
++
++    move-result p0
++
++    return p0
++.end method
++
++.method public setChecked(Z)Z
++    .locals 1
++
++    iget-object p0, p0, Lcom/android/settingslib/core/AbstractPreferenceController;->mContext:Landroid/content/Context;
++
++    invoke-virtual {p0}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
++
++    move-result-object p0
++
++    const-string v0, "unica_power_menu_forcerestart"
 +
 +    invoke-static {p0, v0, p1}, Landroid/provider/Settings$System;->putInt(Landroid/content/ContentResolver;Ljava/lang/String;I)Z
 +
